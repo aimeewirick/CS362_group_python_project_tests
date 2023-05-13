@@ -1,0 +1,39 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Python application
+
+# Controls when the workflow will run
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+          if [-f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Lint with flake8
+        run: |
+          # stop the build if there are Python synatx errors or undefined names
+          flake8 . --count --select=E9, F63, F7, F82 --show-source --statistics
+          # exit-zero treatments all errors as warnings.  The Github editor is 127 chars wide
+          flake8 . --count --max-complexity=10 --max-line-length=127 --statistics
+      - name: Test with Unittest
+        run: |
+          python tests.py
