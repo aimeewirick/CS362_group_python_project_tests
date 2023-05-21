@@ -5,18 +5,25 @@ def conv_num(num_str):
     hexa = False
     negative = False
     decimal = False
+
     # Checks correct string type and basic content
     if type(num_str) != str:
         return None
     if num_str == "":
         return None
-    string = check_prefix(num_str)[0]
-    hexa = check_prefix(num_str)[1]
-    negative = check_prefix(num_str)[2]
-    # Checks the string content without negative or hexadecimal prefix
+
+    # Checks for negative or hexadecimal prefixes
+    hexa = check_prefix(num_str)[0]
+    negative = check_prefix(num_str)[1]
+
+    # Cuts out the prefix so we don't need to check that part redundantly
+    string = prefix_remover(num_str, hexa, negative)
+
+    # Checks the string body for correct content returns 'None' if incorrect content found
     if check_body(string, hexa) is None:
         return None
     else:
+        # Checks the string body for decimal returns True if decimal is found False if no decimal
         decimal = check_body(string, hexa)
     if hexa is True:
         # Converts a hexadecimal string
@@ -28,7 +35,7 @@ def conv_num(num_str):
 
 
 def check_prefix(num_str):
-    """Checks the prefix of a number for hex prefix or negative"""
+    """Helper function for conv_num: checks the prefix of a number returns True/False for hexa and negative prefix"""
     hexa = False
     negative = False
     prefix_options = ["0X", "0x"]
@@ -43,8 +50,12 @@ def check_prefix(num_str):
                     hexa = True
             if num_str.index(option) == 0:
                 hexa = True
+    return hexa, negative
+
+
+def prefix_remover(num_str, hexa, negative):
+    """Helper function for conv_num: Removes hex or negative prefix from a string"""
     string = []
-    # Cuts out the prefix so we don't need to check that part redundantly
     if hexa is True:
         string = num_str[2:len(num_str)]
         if negative is True:
@@ -54,11 +65,11 @@ def check_prefix(num_str):
             string = num_str[1:len(num_str)]
         else:
             string = num_str[0:len(num_str)]
-    return string, hexa, negative
+    return string
 
 
 def check_body(string, hexa):
-    """Checks the body of the string for incorrect/non-numerical parts"""
+    """Helper function for conv_num: Checks string body. Returns decimal True/False  or None if incorrect content"""
     decimal = False
     allowed_alphabet = "ABCDEFabcdef"
     allowed_prefix = "xX"
@@ -86,7 +97,7 @@ def check_body(string, hexa):
 
 
 def hex_converter(string, negative):
-    """Helper function to convert a hexadecimal string to an integer"""
+    """Helper function for conv_num: Converts a hexadecimal string to an integer"""
     number = 0
     exponent = len(string) - 1
     converted_string = string_to_number(string)
@@ -100,7 +111,7 @@ def hex_converter(string, negative):
 
 
 def string_to_number(string):
-    """Helper function to convert a number string (hexadecimal or decimal) to a list of numbers"""
+    """Helper function for conv_num: Converts a number string (hexadecimal or decimal) to a list of numbers"""
     number_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
     number_string = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
     upper_letter_string = ["A", "B", "C", "D", "E", "F"]
@@ -119,7 +130,7 @@ def string_to_number(string):
 
 
 def base10_converter(string, negative, decimal):
-    """Helper function to convert a base10 number string (whole or decimal) to an integer or float"""
+    """Helper function for conv_num: Converts a base10 number string (whole or decimal) to an integer or float"""
     whole_numbers = []
     decimal_numbers = []
     new_string = string
