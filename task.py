@@ -3,7 +3,6 @@ def conv_num(num_str):
     """Converts a number string to an integer or float including hexadecimal or base10 numbers"""
     allowed_alphabet = "ABCDEFabcdef"
     allowed_prefix = "xX"
-    prefix_options = ["0X", "0x"]
     allowed_numbers = "1234567890"
     allowed_sign = "-"
     allowed_decimal = "."
@@ -17,10 +16,29 @@ def conv_num(num_str):
         return number
     if num_str == "":
         return number
+    string = check_prefix(num_str)[0]
+    hexa = check_prefix(num_str)[1]
+    negative = check_prefix(num_str)[2]
+    # Checks the string content without negative or hexadecimal prefix
+    if check_body(string, hexa) is None:
+        return None
+    else:
+        decimal = check_body(string, hexa)
+    if hexa is True:
+        # Converts a hexadecimal string
+        number = hex_converter(string, negative)
+    else:
+        # Converts a base 10 string
+        number = base10_converter(string, negative, decimal)
+    return number
+
+
+def check_prefix(num_str):
+    hexa = False
+    negative = False
+    prefix_options = ["0X", "0x"]
     # Checks for negative sign
-    if allowed_sign in num_str:
-        if num_str.index(allowed_sign) != 0:
-            return number
+    if num_str[0] == "-":
         negative = True
     # Checks for correct hexadecimal prefix
     for option in prefix_options:
@@ -41,28 +59,34 @@ def conv_num(num_str):
             string = num_str[1:len(num_str)]
         else:
             string = num_str[0:len(num_str)]
-    # Checks the string content without negative or hexadecimal prefix
+    return string, hexa, negative
+
+
+def check_body(string, hexa):
+    decimal = False
+    allowed_alphabet = "ABCDEFabcdef"
+    allowed_prefix = "xX"
+    allowed_numbers = "1234567890"
+    allowed_sign = "-"
+    allowed_decimal = "."
+    all_allowed = allowed_alphabet + allowed_sign + allowed_prefix + allowed_decimal + allowed_numbers
     for item in string:
         if item not in all_allowed:
             return None
         if item in allowed_prefix:
-            return number
+            return None
         if item in allowed_alphabet:
             if hexa is False:
-                return number
+                return None
+        if item in allowed_sign:
+            return None
         if item in allowed_decimal:
             if hexa is True:
-                return number
+                return None
             if decimal is True:
-                return number
+                return None
             decimal = True
-    if hexa is True:
-        # Converts a hexadecimal string
-        number = hex_converter(string, negative)
-    else:
-        # Converts a base 10 string
-        number = base10_converter(string, negative, decimal)
-    return number
+    return decimal
 
 
 def hex_converter(string, negative):
