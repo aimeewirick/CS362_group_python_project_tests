@@ -1,21 +1,15 @@
 
 def conv_num(num_str):
     """Converts a number string to an integer or float including hexadecimal or base10 numbers"""
-    allowed_alphabet = "ABCDEFabcdef"
-    allowed_prefix = "xX"
-    allowed_numbers = "1234567890"
-    allowed_sign = "-"
-    allowed_decimal = "."
-    all_allowed = allowed_alphabet + allowed_sign + allowed_prefix + allowed_decimal + allowed_numbers
     number = None
     hexa = False
     negative = False
     decimal = False
     # Checks correct string type and basic content
-    if type(num_str) != type(allowed_numbers):
-        return number
+    if type(num_str) != str:
+        return None
     if num_str == "":
-        return number
+        return None
     string = check_prefix(num_str)[0]
     hexa = check_prefix(num_str)[1]
     negative = check_prefix(num_str)[2]
@@ -34,6 +28,7 @@ def conv_num(num_str):
 
 
 def check_prefix(num_str):
+    """Checks the prefix of a number for hex prefix or negative"""
     hexa = False
     negative = False
     prefix_options = ["0X", "0x"]
@@ -63,6 +58,7 @@ def check_prefix(num_str):
 
 
 def check_body(string, hexa):
+    """Checks the body of the string for incorrect/non-numerical parts"""
     decimal = False
     allowed_alphabet = "ABCDEFabcdef"
     allowed_prefix = "xX"
