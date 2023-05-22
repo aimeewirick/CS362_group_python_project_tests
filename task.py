@@ -12,4 +12,8 @@ def conv_endian(num, endian='big'):
     or None in case of invalid endian type.
     - Format = "XX YY ZZ"
     '''
-    pass
+    hex = ""
+    valid_endian = {'big', 'little'}
+    if endian not in valid_endian:
+        return None
+    return hex
