@@ -4,10 +4,7 @@ from task import conv_endian
 
 class TestCase(unittest.TestCase):
 
-    def test1(self):
-        self.assertTrue(True)
-
-    def test1_conv_num(self):
+    def test1_conv_endian(self):
         """
         Checks that invalid endian input returns None
         """
