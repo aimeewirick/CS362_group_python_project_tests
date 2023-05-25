@@ -160,21 +160,15 @@ class TestCase(unittest.TestCase):
         test_num = 30000
         incorrect_lowercase = "ghijklmnopqrstuvwyz"
         incorrect_uppercase = "GHIJKLMNOPQRSTUVWYZ"
-        uppercase_list = []
-        for item in incorrect_uppercase:
-            uppercase_list.append(item)
-        lowercase_list = []
-        for item in incorrect_lowercase:
-            lowercase_list.append(item)
+        lowercase_list = self.string_to_list(incorrect_lowercase)
+        uppercase_list = self.string_to_list(incorrect_uppercase)
         decimal = "."
         negative = "-"
         prefix = ["0X", "0x"]
         integers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
         symbols = "~!@#$%^&*()_+-={}|><,./;'"
-        symbols_list = []
         alphabet_list = uppercase_list + lowercase_list
-        for item in symbols:
-            symbols_list.append(item)
+        symbols_list = self.string_to_list(symbols)
         possible_body = lowercase_list + uppercase_list + prefix + integers + symbols_list
         possible_body.append(decimal)
         possible_body.append(negative)
@@ -182,12 +176,8 @@ class TestCase(unittest.TestCase):
             length = random.randint(2, 20)
             incorrect_input = ""
             alphabet = False
-            if length == 0:
-                self.assertIsNone(conv_num(incorrect_input))
             for index in range(0, length):
                 incorrect_input = incorrect_input + random.choice(possible_body)
-            if incorrect_input == "":
-                self.assertIsNone(conv_num(incorrect_input))
             index = random.randint(0, length-1)
             if decimal in incorrect_input:
                 incorrect_input = self.insert_at_index(incorrect_input, index, decimal)
@@ -203,6 +193,12 @@ class TestCase(unittest.TestCase):
                 incorrect_input = self.insert_at_index(incorrect_input, index, letter)
             test_num -= 1
             self.assertIsNone(conv_num(incorrect_input), f"input was {incorrect_input}")
+
+    def string_to_list(self, string):
+        list = []
+        for item in string:
+            list.append(item)
+        return list
 
     def insert_at_index(self, string, index, insertion):
         # helper function for test #22 to insert items to make input incorrect
