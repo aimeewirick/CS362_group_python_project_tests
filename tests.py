@@ -8,13 +8,13 @@ class TestCase(unittest.TestCase):
         """Test zero with big-endianness"""
         num = 0
         endian = "big"
-        self.assertEqual(conv_endian(num, endian), "0")
+        self.assertEqual(conv_endian(num, endian), "00")
 
     def test2_conv_endian(self):
         """Test zero with little-endianness"""
         num = 0
         endian = "little"
-        self.assertEqual(conv_endian(num, endian), "0")
+        self.assertEqual(conv_endian(num, endian), "00")
 
     def test3_conv_endian(self):
         """Test zero with invalid endianness"""
@@ -56,7 +56,7 @@ class TestCase(unittest.TestCase):
         """Test positive with invalid endianness"""
         num = 6289
         endian = True
-        self.assertEqual(conv_endian(num, endian), "91 18")
+        self.assertEqual(conv_endian(num, endian), None)
 
 
 if __name__ == '__main__':
