@@ -1,4 +1,3 @@
-
 def conv_num(num_str):
     """Converts a number string to an integer or float including hexadecimal or base10 numbers"""
     number = None
