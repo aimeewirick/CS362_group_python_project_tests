@@ -78,12 +78,37 @@ class TestCase(unittest.TestCase):
                 result = result[2:]
             if len(result) % 2 != 0:
                 result = '0' + result
-            # insert spaces
             result = self.insert_spaces(result)
             # replace (-) sign
             if num < 0:
                 result = '-' + result
             self.assertEqual(conv_endian(num, 'big'), result)
+
+    def big_to_little_endian(self, hex_str):
+        """Recursively switch endianness"""
+        if len(hex_str) == 0:
+            return hex_str
+        return hex_str[-2:] + self.big_to_little_endian(hex_str[:-2])
+
+    def test11_conv_endian(self):
+        """Random testing with little-endian"""
+        num_tests = 100000
+        for i in range(num_tests):
+            num = random.randint(-9999999999, 9999999999)
+            result = hex(num).upper()
+            # trim off 0x
+            if result[0] == '-':
+                result = result[3:]
+            else:
+                result = result[2:]
+            if len(result) % 2 != 0:
+                result = '0' + result
+            result = self.big_to_little_endian(result)
+            result = self.insert_spaces(result)
+            # replace (-) sign
+            if num < 0:
+                result = '-' + result
+            self.assertEqual(conv_endian(num, 'little'), result)
 
 
 if __name__ == '__main__':
