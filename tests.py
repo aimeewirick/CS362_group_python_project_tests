@@ -1,4 +1,5 @@
 import unittest
+import random
 from task import conv_endian
 
 
@@ -57,6 +58,32 @@ class TestCase(unittest.TestCase):
         num = 6289
         endian = True
         self.assertEqual(conv_endian(num, endian), None)
+
+    def insert_spaces(self, hex_str):
+        """Recursively insert a space every 2 characters"""
+        if len(hex_str) == 2:
+            return hex_str
+        return hex_str[:2] + ' ' + self.insert_spaces(hex_str[2:])
+
+    def test10_conv_endian(self):
+        """Random testing with big-endian"""
+        num_tests = 100000
+        for i in range(num_tests):
+            num = random.randint(-9999999999, 9999999999)
+            result = hex(num).upper()
+            # trim off 0x
+            if result[0] == '-':
+                result = result[3:]
+            else:
+                result = result[2:]
+            if len(result) % 2 != 0:
+                result = '0' + result
+            # insert spaces
+            result = self.insert_spaces(result)
+            # replace (-) sign
+            if num < 0:
+                result = '-' + result
+            self.assertEqual(conv_endian(num, 'big'), result)
 
 
 if __name__ == '__main__':
