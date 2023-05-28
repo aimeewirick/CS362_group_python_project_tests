@@ -18,12 +18,12 @@ def conv_num(num_str):
     # Cuts out the prefix so we don't need to check that part redundantly
     string = prefix_remover(num_str, hexa, negative)
 
-    # Checks the string body for correct content returns 'None' if incorrect content found
-    if check_body(string, hexa) is None:
+    # Checks the string body for decimals and errors. Returns None if error OR True/False for a decimal in the string
+    verification = check_body(string, hexa)
+    if verification is None:
         return None
     else:
-        # Checks the string body for decimal returns True if decimal is found False if no decimal
-        decimal = check_body(string, hexa)
+        decimal = verification
     if hexa is True:
         # Converts a hexadecimal string
         number = hex_converter(string, negative)

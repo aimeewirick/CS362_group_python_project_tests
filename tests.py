@@ -192,9 +192,11 @@ class TestCase(unittest.TestCase):
                 letter = random.choice(alphabet_list)
                 incorrect_input = self.insert_at_index(incorrect_input, index, letter)
             test_num -= 1
+            print(incorrect_input)
             self.assertIsNone(conv_num(incorrect_input), f"input was {incorrect_input}")
 
     def string_to_list(self, string):
+        # helper function to make a list from a string
         list = []
         for item in string:
             list.append(item)
@@ -202,14 +204,7 @@ class TestCase(unittest.TestCase):
 
     def insert_at_index(self, string, index, insertion):
         # helper function for test #22 to insert items to make input incorrect
-        new_string = ""
-        counter = index
-        for item in string:
-            if counter != 0:
-                new_string = new_string + item
-            if counter == 0:
-                new_string = new_string + insertion
-            counter -= 1
+        new_string = string[:index] + insertion + string[index:]
         return new_string
 
 
