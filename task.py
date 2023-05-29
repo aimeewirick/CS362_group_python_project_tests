@@ -1,4 +1,3 @@
-
 def conv_hex(num):
     """Takes a positive integer and returns big-endian hex string"""
     dec_to_hex = {
