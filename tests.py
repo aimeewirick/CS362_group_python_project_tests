@@ -36,7 +36,6 @@ class TestCase(unittest.TestCase):
         # tests for - in right place
         value = "-1235"
         self.assertEqual(conv_num(value), -1235)
-        print(type(conv_num(value)))
 
     def test5_conv(self):
         # checks if hexadecimal is correctly represented as 0x or 0X
@@ -194,7 +193,6 @@ class TestCase(unittest.TestCase):
                 letter = random.choice(alphabet_list)
                 incorrect_input = self.insert_at_index(incorrect_input, index, letter)
             test_num -= 1
-            print(incorrect_input)
             self.assertIsNone(conv_num(incorrect_input), f"input was {incorrect_input}")
 
     def string_to_list(self, string):
