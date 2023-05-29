@@ -4,6 +4,7 @@ import random
 from task import my_datetime
 from task import conv_num
 
+
 class TestCase(unittest.TestCase):
 
     def test1_conv(self):
@@ -179,7 +180,7 @@ class TestCase(unittest.TestCase):
             alphabet = False
             for index in range(0, length):
                 incorrect_input = incorrect_input + random.choice(possible_body)
-            index = random.randint(0, length-1)
+            index = random.randint(0, length - 1)
             if decimal in incorrect_input:
                 incorrect_input = self.insert_at_index(incorrect_input, index, decimal)
             if incorrect_input[0:1] == prefix:
@@ -256,8 +257,6 @@ class TestCase(unittest.TestCase):
         expected_date = datetime.datetime.utcfromtimestamp(seconds)
         formatted_date = expected_date.strftime('%m-%d-%Y')
         self.assertEqual(formatted_date, my_datetime(seconds))
-
-
 
 
 if __name__ == '__main__':

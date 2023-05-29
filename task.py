@@ -1,5 +1,5 @@
 def my_datetime(num_sec):
-  # Converts seconds provided to the current date since epoch
+    # Converts seconds provided to the current date since epoch
     # Constants
     sec_per_day = 86400
     sec_per_year = 365 * sec_per_day
@@ -196,7 +196,7 @@ def base10_converter(string, negative, decimal):
     if decimal is True:
         place = new_string.index(".")
         whole_numbers = string_to_number(new_string[0:place])
-        decimal_numbers = string_to_number(new_string[place+1:len(new_string)])
+        decimal_numbers = string_to_number(new_string[place + 1:len(new_string)])
     if decimal is False:
         whole_numbers = string_to_number(new_string)
     converted_number = 0
