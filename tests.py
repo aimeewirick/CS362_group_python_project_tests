@@ -1,6 +1,8 @@
 import unittest
-from task import conv_num
+import datetime
 import random
+from task import my_datetime
+from task import conv_num
 
 
 class TestCase(unittest.TestCase):
@@ -34,7 +36,6 @@ class TestCase(unittest.TestCase):
         # tests for - in right place
         value = "-1235"
         self.assertEqual(conv_num(value), -1235)
-        print(type(conv_num(value)))
 
     def test5_conv(self):
         # checks if hexadecimal is correctly represented as 0x or 0X
@@ -178,7 +179,7 @@ class TestCase(unittest.TestCase):
             alphabet = False
             for index in range(0, length):
                 incorrect_input = incorrect_input + random.choice(possible_body)
-            index = random.randint(0, length-1)
+            index = random.randint(0, length - 1)
             if decimal in incorrect_input:
                 incorrect_input = self.insert_at_index(incorrect_input, index, decimal)
             if incorrect_input[0:1] == prefix:
@@ -192,7 +193,6 @@ class TestCase(unittest.TestCase):
                 letter = random.choice(alphabet_list)
                 incorrect_input = self.insert_at_index(incorrect_input, index, letter)
             test_num -= 1
-            print(incorrect_input)
             self.assertIsNone(conv_num(incorrect_input), f"input was {incorrect_input}")
 
     def string_to_list(self, string):
@@ -206,6 +206,55 @@ class TestCase(unittest.TestCase):
         # helper function for test #22 to insert items to make input incorrect
         new_string = string[:index] + insertion + string[index:]
         return new_string
+
+    def test1_date(self):
+        # Tests the epoch
+        seconds = 0
+        expected_date = datetime.datetime.utcfromtimestamp(seconds)
+        formatted_date = expected_date.strftime('%m-%d-%Y')
+        self.assertEqual(formatted_date, my_datetime(seconds))
+
+    def test2_date(self):
+        # Second test from example, a date in the past
+        seconds = 123456789
+        expected_date = datetime.datetime.utcfromtimestamp(seconds)
+        formatted_date = expected_date.strftime('%m-%d-%Y')
+        self.assertEqual(formatted_date, my_datetime(seconds))
+
+    def test3_date(self):
+        # Testing future date
+        seconds = 2000000000
+        expected_date = datetime.datetime.utcfromtimestamp(seconds)
+        formatted_date = expected_date.strftime('%m-%d-%Y')
+        self.assertEqual(formatted_date, my_datetime(seconds))
+
+    def test4_date(self):
+        # Testing a leap year
+        seconds = 94694400
+        expected_date = datetime.datetime.utcfromtimestamp(seconds)
+        formatted_date = expected_date.strftime('%m-%d-%Y')
+        self.assertEqual(formatted_date, my_datetime(seconds))
+
+    def test5_date(self):
+        # Testing a non-leap year
+        seconds = 31536000
+        expected_date = datetime.datetime.utcfromtimestamp(seconds)
+        formatted_date = expected_date.strftime('%m-%d-%Y')
+        self.assertEqual(formatted_date, my_datetime(seconds))
+
+    def test6_date(self):
+        # A year that's usually a leap year, but is not because it's not divisible by 400
+        seconds = 4102444800
+        expected_date = datetime.datetime.utcfromtimestamp(seconds)
+        formatted_date = expected_date.strftime('%m-%d-%Y')
+        self.assertEqual(formatted_date, my_datetime(seconds))
+
+    def test7_date(self):
+        # Testing a time far in the future
+        seconds = 4158931200
+        expected_date = datetime.datetime.utcfromtimestamp(seconds)
+        formatted_date = expected_date.strftime('%m-%d-%Y')
+        self.assertEqual(formatted_date, my_datetime(seconds))
 
 
 if __name__ == '__main__':
