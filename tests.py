@@ -8,7 +8,6 @@ from task import conv_endian
 
 class TestCase(unittest.TestCase):
 
-
     def test1_conv_endian(self):
         """Test zero with big-endianness"""
         num = 0

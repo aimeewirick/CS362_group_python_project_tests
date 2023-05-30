@@ -63,7 +63,7 @@ def conv_endian(num, endian='big'):
 
     return hex_str
 
-  
+
 def my_datetime(num_sec):
     # Converts seconds provided to the current date since epoch
     # Constants
